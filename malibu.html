@@ -1,0 +1,74 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>ArcGIS API for JavaScript Tutorials: Create a Starter App</title>
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.17/"></script>
+
+    <script>
+        require([
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/layers/FeatureLayer",
+            "esri/widgets/Editor"
+        ], function (Map, MapView, FeatureLayer, Editor) {
+
+            // FeatureLayer criada na minha conta do 'ovelhaestoica'
+            // (insumos para o mapa/camadas)
+            var myPointsFeatureLayer = new FeatureLayer({
+                url: "https://services8.arcgis.com/bEcHQAx3aUISrAe5/arcgis/rest/services/my_points/FeatureServer"
+            });
+
+            var myLinesFeatureLayer = new FeatureLayer({
+                url: "https://services8.arcgis.com/bEcHQAx3aUISrAe5/arcgis/rest/services/my_lines/FeatureServer"
+            });
+
+            var myPolygonsFeatureLayer = new FeatureLayer({
+                url: "https://services8.arcgis.com/bEcHQAx3aUISrAe5/arcgis/rest/services/my_polygons/FeatureServer"
+            });
+
+            // Mapa base com as camadas que eu criei
+            // (mapa)
+            var map = new Map({
+                basemap: "gray-vector",
+                layers: [myPointsFeatureLayer, myLinesFeatureLayer, myPolygonsFeatureLayer]
+            });
+
+            // Visualizacao do mapa
+            // (visualizacao do mapa)
+            var view = new MapView({
+                container: "viewDiv",
+                map: map,
+                center: [-118.80500, 34.02700], // longitude, latitude
+                zoom: 13
+            });
+
+            // Widget de edicao de uma feature
+            // (default do ArcGIS)
+            var editorWidget = new Editor({
+                view: view
+            });
+            view.ui.add(editorWidget, "top-right");
+
+        });
+    </script>
+</head>
+
+<body>
+    <div id="viewDiv"></div>
+</body>
+
+</html>
