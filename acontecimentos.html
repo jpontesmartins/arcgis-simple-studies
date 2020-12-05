@@ -1,0 +1,59 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>ArcGIS API for JavaScript Tutorials: Create a Starter App</title>
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.17/"></script>
+
+    <script>
+        require([
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/layers/FeatureLayer",
+            "esri/PopupTemplate"
+        ], function (Map, MapView, FeatureLayer, PopupTemplate) {
+
+            var map = new Map({
+                basemap: "gray-vector",
+            });
+
+            var view = new MapView({
+                container: "viewDiv",
+                map: map,
+                center: [-38.14453125, 38.95940879245423], // longitude, latitude
+                zoom: 3
+            });
+
+            var acontecimentosFeatureLayer = new FeatureLayer({
+                url: "https://services8.arcgis.com/bEcHQAx3aUISrAe5/arcgis/rest/services/acontecimentos/FeatureServer",
+                outFields: ["tipo_de_acontecimento", "pessoa","ano"],
+                popupTemplate: { 
+                    title: "{pessoa}",
+                    content: "{tipo_de_acontecimento} em {ano}" 
+                }
+            });
+
+            map.add(acontecimentosFeatureLayer);
+
+        });
+    </script>
+</head>
+
+<body>
+    <div id="viewDiv"></div>
+</body>
+
+</html>
